@@ -9,12 +9,15 @@ import java.util.List;
 public class ListaDeReproducao {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+
+    @NotBlank(message = "O nome não pode ficar em branco!")
     private String nome;
 
     @NotBlank(message = "A Descrição não pode ficar em branco!")
     private String descricao;
 
-    @NotBlank(message = "A lista de música não pode ficar em branco!")
     @OneToMany(targetEntity = Musica.class, cascade = CascadeType.PERSIST)
     private List<Musica> musicas;
 
@@ -24,7 +27,7 @@ public class ListaDeReproducao {
     public ListaDeReproducao(String nome, String descricao, List<Musica> musicas) {
         this.nome = nome;
         this.descricao = descricao;
-//        this.musicas = musicas;
+        this.musicas = musicas;
     }
 
     public String getNome() {
@@ -43,20 +46,20 @@ public class ListaDeReproducao {
         this.descricao = descricao;
     }
 
-//    public List<Musica> getMusicas() {
-//        return musicas;
-//    }
-//
-//    public void setMusicas(List<Musica> musicas) {
-//        this.musicas = musicas;
-//    }
+    public List<Musica> getMusicas() {
+        return musicas;
+    }
+
+    public void setMusicas(List<Musica> musicas) {
+        this.musicas = musicas;
+    }
 
     @Override
     public String toString() {
         return "ListaDeReproducao{" +
                 "nome='" + nome + '\'' +
                 ", descricao='" + descricao + '\'' +
-//                ", musicas=" + musicas +
+                ", musicas=" + musicas +
                 '}';
     }
 }
