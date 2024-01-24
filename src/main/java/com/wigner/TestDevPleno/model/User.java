@@ -1,13 +1,9 @@
 package com.wigner.TestDevPleno.model;
 
-import com.wigner.TestDevPleno.model.enums.Perfil;
 import jakarta.persistence.*;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 @Entity
+@Table(name = "user_table")
 public class User {
 
     @Id
@@ -20,18 +16,19 @@ public class User {
 
     private String senha;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "PERFIS")
-    protected Set<Integer> perfis = new HashSet<>();
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, targetEntity = Roles.class)
+    @JoinColumn(name = "role_id", referencedColumnName = "roleId", nullable = false)
+    private Roles role;
 
     public User() {
     }
 
-    public User(int id, String nome, String email, String senha) {
+    public User(int id, String nome, String email, String senha, Roles role) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
+        this.role = role;
     }
 
     public int getId() {
@@ -66,11 +63,11 @@ public class User {
         this.senha = senha;
     }
 
-    public Set<Perfil> getPerfis() {
-        return perfis.stream().map(Perfil::toEnum).collect(Collectors.toSet());
+    public Roles getRole() {
+        return role;
     }
 
-    public void addPerfi(Perfil perfil) {
-        this.perfis.add(perfil.getCodigo());
+    public void setRole(Roles role) {
+        this.role = role;
     }
 }
