@@ -7,12 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/lists")
@@ -25,9 +24,29 @@ public class ListaDeReproducaoController {
     public ResponseEntity<ListaDeReproducao> create(@Valid @RequestBody ListaDeReproducao listaDeReproducao) {
         ListaDeReproducao list = listaDeReproducaoService.create(listaDeReproducao);
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().buildAndExpand(listaDeReproducao.getNome()).toUri();
+        return ResponseEntity.status(HttpStatus.CREATED).body(list);
+    }
 
-        return ResponseEntity.created(uri).body(list);
+    @GetMapping
+    public ResponseEntity<List<ListaDeReproducao>> findAll() {
+        List<ListaDeReproducao> list = listaDeReproducaoService.findAll();
+
+        return ResponseEntity.ok().body(list);
+    }
+
+    @GetMapping(value = "/{listName}")
+    public ResponseEntity<ListaDeReproducao> findByName(@PathVariable String listName) {
+        ListaDeReproducao list = listaDeReproducaoService.findByNome(listName);
+
+        return ResponseEntity.ok().body(list);
+    }
+
+    @DeleteMapping(value = "/{listName}")
+    public ResponseEntity<ListaDeReproducao> delete(@PathVariable String listName) {
+        listaDeReproducaoService.delete(listName);
+
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }
