@@ -12,6 +12,7 @@ public class ListaDeReproducao {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    @Column(unique = true)
     @NotBlank(message = "O nome não pode ficar em branco!")
     private String nome;
 
