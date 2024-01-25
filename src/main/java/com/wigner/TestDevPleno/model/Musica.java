@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.List;
@@ -16,9 +17,13 @@ public class Musica {
     private int id;
 
     private String titulo;
+
     private String artista;
+
     private String album;
+
     private String ano;
+
     private String genero;
 
     public Musica() {
